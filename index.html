@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1a1a2e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <title>Daily Spend</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+
+    <!-- ===== Screen 1: Month List ===== -->
+    <div id="monthScreen" class="screen active">
+      <div class="month-nav">
+        <button id="monthPrev" class="nav-btn">&larr;</button>
+        <h1 id="monthTitle"></h1>
+        <button id="monthNext" class="nav-btn">&rarr;</button>
+      </div>
+      <div id="monthSummary" class="month-summary"></div>
+      <ul id="monthList" class="month-list"></ul>
+      <p id="monthEmpty" class="empty-msg">まだ記録がありません</p>
+      <button id="monthAddBtn" class="fab">+</button>
+      <div class="month-footer">
+        <button id="exportDataBtn" class="data-btn">データ書き出し</button>
+        <button id="importDataBtn" class="data-btn">データ取り込み</button>
+        <input type="file" id="importFile" accept=".json" style="display:none">
+      </div>
+    </div>
+
+    <!-- ===== Screen 2: Day Detail ===== -->
+    <div id="dayScreen" class="screen">
+      <header class="screen-header">
+        <button id="backBtn" class="back-btn">&larr; 戻る</button>
+      </header>
+      <div class="day-header">
+        <h2 id="dayDate"></h2>
+        <div id="dayEvent" class="day-event"></div>
+      </div>
+      <div id="dayTotal" class="day-total">¥0</div>
+      <ul id="txList" class="tx-list"></ul>
+      <p id="dayEmpty" class="empty-msg">＋ ボタンで支出を追加</p>
+      <button id="addBtn" class="fab">+</button>
+      <button id="exportBtn" class="export-btn">CSV出力</button>
+    </div>
+
+    <!-- ===== Screen 3: Add/Edit Entry ===== -->
+    <div id="addScreen" class="screen">
+      <header class="screen-header">
+        <button id="addBackBtn" class="back-btn">&larr; 戻る</button>
+      </header>
+      <h2 id="addTitle" class="add-title">支出を追加</h2>
+
+      <!-- Date (text-based, no native picker) -->
+      <label class="field-label">日付</label>
+      <div id="dateDisplay" class="date-display"></div>
+
+      <!-- Event Name (required) -->
+      <label class="field-label">イベント名 <span class="required">*必須</span></label>
+      <input type="text" id="eventInput" class="field-input" placeholder="例: いちご狩り、旅行、日常" autocomplete="off">
+
+      <!-- Items → total is auto-calculated -->
+      <label class="field-label">内訳 <span class="required">*1件以上必須</span></label>
+      <div id="itemsContainer" class="items-container">
+        <div class="item-row">
+          <input type="text" class="item-name" placeholder="カテゴリ（例: 電車）">
+          <input type="number" class="item-amount" placeholder="金額" inputmode="numeric">
+        </div>
+      </div>
+      <button id="addItemBtn" class="add-item-btn">+ もう1件追加</button>
+
+      <!-- Auto Total -->
+      <div id="autoTotal" class="auto-total">合計: ¥0</div>
+
+      <!-- Submit -->
+      <button id="saveBtn" class="save-btn" disabled>保存</button>
+    </div>
+
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
