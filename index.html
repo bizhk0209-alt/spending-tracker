@@ -22,12 +22,14 @@
         <button id="monthNext" class="nav-btn">&rarr;</button>
       </div>
       <div id="monthSummary" class="month-summary"></div>
+      <div id="monthBreakdown" class="month-breakdown"></div>
       <ul id="monthList" class="month-list"></ul>
       <p id="monthEmpty" class="empty-msg">まだ記録がありません<br><a href="seed.html" class="restore-link">データを復元する</a></p>
       <button id="monthAddBtn" class="fab">+</button>
       <div class="month-footer">
-        <button id="exportDataBtn" class="data-btn">データ書き出し</button>
-        <button id="importDataBtn" class="data-btn">データ取り込み</button>
+        <button id="statsBtn" class="data-btn">📊 統計</button>
+        <button id="exportDataBtn" class="data-btn">書き出し</button>
+        <button id="importDataBtn" class="data-btn">取り込み</button>
         <input type="file" id="importFile" accept=".json" style="display:none">
       </div>
     </div>
@@ -43,6 +45,7 @@
       </div>
       <div id="dayTotal" class="day-total">¥0</div>
       <ul id="txList" class="tx-list"></ul>
+      <div id="hibiSummary" class="hibi-summary" style="display:none"></div>
       <p id="dayEmpty" class="empty-msg">＋ ボタンで支出を追加</p>
       <button id="addBtn" class="fab">+</button>
       <button id="exportBtn" class="export-btn">CSV出力</button>
@@ -55,29 +58,39 @@
       </header>
       <h2 id="addTitle" class="add-title">支出を追加</h2>
 
-      <!-- Date (text-based, no native picker) -->
       <label class="field-label">日付</label>
       <div id="dateDisplay" class="date-display"></div>
 
-      <!-- Event Name (required) -->
+      <label class="field-label">種別 <span class="required">*必須</span></label>
+      <div id="typeToggle" class="type-toggle">
+        <button type="button" class="type-btn active" data-type="private">🏠 プライベート</button>
+        <button type="button" class="type-btn" data-type="work">💼 仕事</button>
+      </div>
+
       <label class="field-label">イベント名 <span class="required">*必須</span></label>
       <input type="text" id="eventInput" class="field-input" placeholder="例: いちご狩り、旅行、日常" autocomplete="off">
 
-      <!-- Items → total is auto-calculated -->
       <label class="field-label">内訳 <span class="required">*1件以上必須</span></label>
-      <div id="itemsContainer" class="items-container">
-        <div class="item-row">
-          <input type="text" class="item-name" placeholder="カテゴリ（例: 電車）">
-          <input type="number" class="item-amount" placeholder="金額" inputmode="numeric">
-        </div>
-      </div>
-      <button id="addItemBtn" class="add-item-btn">+ もう1件追加</button>
+      <div id="presetGrid" class="preset-grid"></div>
+      <div id="itemsContainer" class="items-container"></div>
+      <button id="addItemBtn" class="add-item-btn">＋ その他（自由入力）</button>
 
-      <!-- Auto Total -->
       <div id="autoTotal" class="auto-total">合計: ¥0</div>
-
-      <!-- Submit -->
       <button id="saveBtn" class="save-btn" disabled>保存</button>
+    </div>
+
+    <!-- ===== Screen 4: Stats ===== -->
+    <div id="statsScreen" class="screen">
+      <header class="screen-header">
+        <button id="statsBackBtn" class="back-btn">&larr; 戻る</button>
+      </header>
+      <h2 class="add-title">📊 統計</h2>
+      <div class="stats-year-nav">
+        <button id="statsPrevYear" class="nav-btn">&larr;</button>
+        <span id="statsYearLabel"></span>
+        <button id="statsNextYear" class="nav-btn">&rarr;</button>
+      </div>
+      <div id="statsContent"></div>
     </div>
 
   </div>
