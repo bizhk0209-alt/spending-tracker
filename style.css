@@ -83,6 +83,12 @@ body {
   text-align: center; color: var(--text-sub);
   font-size: 0.9rem; padding: 40px 0;
 }
+.restore-link {
+  display: inline-block; margin-top: 12px;
+  color: var(--accent); font-size: 0.85rem; font-weight: 600;
+  text-decoration: none; border: 1px solid var(--accent);
+  border-radius: 8px; padding: 6px 16px;
+}
 
 .month-footer {
   display: flex; gap: 8px; justify-content: center;
