@@ -70,7 +70,7 @@
       <label class="field-label">イベント名 <span class="required">*必須</span></label>
       <input type="text" id="eventInput" class="field-input" placeholder="例: いちご狩り、旅行、日常" autocomplete="off">
 
-      <label class="field-label">内訳 <span class="required">*1件以上必須</span></label>
+      <label class="field-label">内訳 <span class="required">*1件以上必須</span><button type="button" id="editPresetsBtn" class="preset-edit-btn">✏️ 編集</button></label>
       <div id="presetGrid" class="preset-grid"></div>
       <div id="itemsContainer" class="items-container"></div>
       <button id="addItemBtn" class="add-item-btn">＋ その他（自由入力）</button>
@@ -92,6 +92,21 @@
       </div>
       <div id="statsContent"></div>
     </div>
+
+  <!-- ===== Preset Management Modal ===== -->
+  <div id="presetModal" class="modal-overlay" style="display:none">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <h3 class="modal-title">カテゴリ管理</h3>
+        <button id="presetModalClose" class="modal-close-btn">完了</button>
+      </div>
+      <ul id="presetModalList" class="preset-modal-list"></ul>
+      <div class="preset-modal-add">
+        <input type="text" id="presetNewInput" class="field-input" placeholder="新しいカテゴリ名を入力">
+        <button id="presetAddConfirm" class="preset-add-confirm">追加</button>
+      </div>
+    </div>
+  </div>
 
   </div>
   <script src="app.js"></script>

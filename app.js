@@ -9,8 +9,15 @@ function escapeHtml(s) { const d = document.createElement('div'); d.textContent 
 const DOW = ['日','月','火','水','木','金','土'];
 function formatDateFull(d) { return `${d.getMonth()+1}月${d.getDate()}日（${DOW[d.getDay()]}）`; }
 
-// === Preset Categories ===
-const PRESETS = ['電車', 'バス', '自転車', 'タクシー', 'コンビニ', 'ランチ', 'ディナー', 'カフェ', '延長保育'];
+// === Preset Categories (localStorage保存) ===
+const DEFAULT_PRESETS = ['電車', 'バス', '自転車', 'タクシー', 'コンビニ', 'ランチ', 'ディナー', 'カフェ', '延長保育'];
+function getPresets() {
+  try {
+    const saved = localStorage.getItem('spend_presets');
+    return saved ? JSON.parse(saved) : [...DEFAULT_PRESETS];
+  } catch { return [...DEFAULT_PRESETS]; }
+}
+function savePresets(list) { localStorage.setItem('spend_presets', JSON.stringify(list)); }
 
 // === State ===
 const STATE = { calMonth: new Date(), viewDate: null, statsYear: new Date().getFullYear() };
@@ -225,8 +232,9 @@ $('typeToggle').addEventListener('click', e => {
 });
 
 function renderPresetGrid() {
-  $('presetGrid').innerHTML = PRESETS.map(cat =>
-    `<button type="button" class="preset-btn" data-cat="${escapeHtml(cat)}">${cat}</button>`
+  const presets = getPresets();
+  $('presetGrid').innerHTML = presets.map(cat =>
+    `<button type="button" class="preset-btn" data-cat="${escapeHtml(cat)}">${escapeHtml(cat)}</button>`
   ).join('') + `<button type="button" class="preset-btn preset-other" data-cat="">その他</button>`;
 
   $('presetGrid').querySelectorAll('.preset-btn').forEach(btn => {
@@ -313,6 +321,49 @@ function createItemRowHTML(cat, amount) {
     <button type="button" class="item-del-btn">×</button>
   </div>`;
 }
+
+// === Preset Modal ===
+$('editPresetsBtn').addEventListener('click', () => {
+  renderPresetModal();
+  $('presetModal').style.display = 'flex';
+});
+$('presetModalClose').addEventListener('click', () => {
+  $('presetModal').style.display = 'none';
+  renderPresetGrid();
+});
+$('presetModal').addEventListener('click', e => {
+  if (e.target === $('presetModal')) $('presetModal').style.display = 'none';
+  renderPresetGrid();
+});
+
+function renderPresetModal() {
+  const presets = getPresets();
+  $('presetModalList').innerHTML = presets.map((cat, i) => `
+    <li class="preset-modal-item">
+      <span>${escapeHtml(cat)}</span>
+      <button type="button" class="preset-modal-del" data-index="${i}">×</button>
+    </li>`).join('');
+  $('presetModalList').querySelectorAll('.preset-modal-del').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const list = getPresets();
+      list.splice(Number(btn.dataset.index), 1);
+      savePresets(list);
+      renderPresetModal();
+    });
+  });
+}
+
+$('presetAddConfirm').addEventListener('click', () => {
+  const val = $('presetNewInput').value.trim();
+  if (!val) return;
+  const list = getPresets();
+  if (!list.includes(val)) { list.push(val); savePresets(list); }
+  $('presetNewInput').value = '';
+  renderPresetModal();
+});
+$('presetNewInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') $('presetAddConfirm').click();
+});
 
 // 行削除
 $('itemsContainer').addEventListener('click', e => {
